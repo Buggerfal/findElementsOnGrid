@@ -1,11 +1,18 @@
+const WIDTH = window.innerWidth;
+const HEIGHT = window.innerHeight;
+
 class Game {
     constructor() {
         this._initApp();
     }
 
     _initApp() {
-        this.app = new PIXI.Application(400, 500, { backgroundColor: 0x1099bb });
+        this.app = new PIXI.Application(WIDTH, HEIGHT, { backgroundColor: 0xfd8263 });
         document.body.appendChild(this.app.view);
+    }
+
+    _drawElementsOnGrid() {
+
     }
 }
 
