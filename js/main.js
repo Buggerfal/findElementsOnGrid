@@ -16,4 +16,26 @@ class Game {
     }
 }
 
+const createSprite = function(app, options) {
+    options = Object.assign({
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+        interactive: false
+    }, options);
+
+    const sprite = PIXI.Sprite.fromImage(options.path);
+
+    sprite.width = options.width;
+    sprite.height = options.height;
+    sprite.x = options.x;
+    sprite.y = options.y;
+    sprite.interactive = options.interactive;
+
+    app.stage.addChild(sprite);
+
+    return sprite;
+};
+
 new Game;
