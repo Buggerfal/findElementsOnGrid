@@ -30,7 +30,9 @@ class Game {
                     path: `images/${randomInteger(1,4)}.png`
                 });
 
-                x += 64;
+                if (x !== width) {
+                    x += 64;
+                }
             }
 
             x = 0;
@@ -47,8 +49,6 @@ class Game {
                 interactive: true,
                 path: `images/${randomInteger(1,4)}.png`
             });
-
-            x += 64;
         }
     }
 }
