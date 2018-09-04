@@ -17,7 +17,9 @@ class Game {
         let x = 0;
         let y = 0;
 
+        //Draw elements on Y coordinates
         for (let i = 1; i <= width; i++) {
+            //Draw elements on X coordinates            
             for (let j = 1; j <= height; j++) {
                 createSprite(this.app, {
                     x: x,
@@ -47,7 +49,6 @@ class Game {
             });
 
             x += 64;
-
         }
     }
 }
@@ -84,4 +85,4 @@ function randomInteger(min, max) {
     return rand;
 };
 
-new Game;
+new Game; //
