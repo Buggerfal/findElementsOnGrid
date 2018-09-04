@@ -4,6 +4,7 @@ const HEIGHT = window.innerHeight;
 class Game {
     constructor() {
         this._initApp();
+        // this._drawElementsOnGrid();
     }
 
     _initApp() {
@@ -36,6 +37,12 @@ const createSprite = function(app, options) {
     app.stage.addChild(sprite);
 
     return sprite;
+};
+
+function randomInteger(min, max) {
+    let rand = min + Math.random() * (max - min);
+    rand = Math.round(rand);
+    return rand;
 };
 
 new Game;
