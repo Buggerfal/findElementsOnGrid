@@ -4,7 +4,8 @@ const HEIGHT = window.innerHeight;
 class Game {
     constructor() {
         this._initApp();
-        // this._drawElementsOnGrid();
+        //Counts elements on grid
+        this._drawElementsOnGrid(6, 6);
     }
 
     _initApp() {
@@ -12,8 +13,42 @@ class Game {
         document.body.appendChild(this.app.view);
     }
 
-    _drawElementsOnGrid() {
+    _drawElementsOnGrid(width, height) {
+        let x = 0;
+        let y = 0;
 
+        for (let i = 1; i <= width; i++) {
+            for (let j = 1; j <= height; j++) {
+                createSprite(this.app, {
+                    x: x,
+                    y: y,
+                    width: 64,
+                    height: 64,
+                    interactive: true,
+                    path: `images/${randomInteger(1,4)}.png`
+                });
+
+                x += 64;
+            }
+
+            x = 0;
+
+            if (i !== height) {
+                y += 64;
+            }
+
+            createSprite(this.app, {
+                x: x,
+                y: y,
+                width: 64,
+                height: 64,
+                interactive: true,
+                path: `images/${randomInteger(1,4)}.png`
+            });
+
+            x += 64;
+
+        }
     }
 }
 
@@ -33,6 +68,10 @@ const createSprite = function(app, options) {
     sprite.x = options.x;
     sprite.y = options.y;
     sprite.interactive = options.interactive;
+
+    sprite.on("click", function() {
+        console.log("1");
+    });
 
     app.stage.addChild(sprite);
 
