@@ -4,9 +4,9 @@ const HEIGHT = window.innerHeight;
 class Game {
     constructor() {
         this.elements = [];
-        this._initApp();
+        this.initApp();
         //Counts elements on grid
-        this._drawElementsOnGrid(5, 5);
+        this.drawElementsOnGrid(5, 5);
     }
 
     initApp() {
