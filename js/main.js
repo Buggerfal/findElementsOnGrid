@@ -9,12 +9,12 @@ class Game {
         this._drawElementsOnGrid(5, 5);
     }
 
-    _initApp() {
+    initApp() {
         this.app = new PIXI.Application(WIDTH, HEIGHT, { backgroundColor: 0xfd8263 });
         document.body.appendChild(this.app.view);
     }
 
-    _drawElementsOnGrid(width, height) {
+    drawElementsOnGrid(width, height) {
         let x = 0;
         let y = 0;
 
@@ -32,11 +32,7 @@ class Game {
                     path: `images/${type}.png`
                 });
 
-                sprite.typeId = type;
-                sprite.uniqId = Math.random().toString(16).slice(2);
-                sprite.columnPosition = i;
-                sprite.rawPosition = j;
-
+                this.setAttribute(i, j, sprite, type);
                 this.elements.push(sprite);
 
                 if (x !== width) {
@@ -62,6 +58,15 @@ class Game {
 
         console.log(this.elements);
     }
+
+    setAttribute(column, raw, element, type) {
+        element.typeId = type;
+        element.uniqId = Math.random().toString(16).slice(2);
+        element.columnPosition = column;
+        element.rawPosition = raw;
+
+        return element;
+    }
 }
 
 const createSprite = function(app, options) {
@@ -82,7 +87,9 @@ const createSprite = function(app, options) {
     sprite.interactive = options.interactive;
 
     sprite.on("click", function() {
-        console.log("1");
+        console.log(this.uniqId);
+        console.log(this.rawPosition);
+        console.log(this.columnPosition);
     });
 
     app.stage.addChild(sprite);
@@ -96,4 +103,4 @@ function randomInteger(min, max) {
     return rand;
 };
 
-new Game; //
+new Game;
