@@ -1,12 +1,14 @@
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
+const rowCounts = 5;
+const columnCounts = 5;
 
 class Game {
     constructor() {
         this.elements = [];
         this.initApp();
         //Counts elements on grid
-        this.drawElementsOnGrid(5, 5);
+        this.drawElementsOnGrid(rowCounts, columnCounts);
     }
 
     initApp() {
@@ -15,6 +17,12 @@ class Game {
     }
 
     drawElementsOnGrid(row, column) {
+        const container = new PIXI.Container();
+        container.x = WIDTH / 2;
+        container.y = HEIGHT / 2;
+
+        this.app.stage.addChild(container);
+
         let x = 0;
         let y = 0;
 
@@ -23,7 +31,7 @@ class Game {
             //Draw elements on X coordinates            
             for (let j = 0; j <= column; j++) {
                 const type = randomInteger(1, 4);
-                const sprite = createSprite(this.app, {
+                const sprite = createSprite(container, {
                     x: x,
                     y: y,
                     width: 64,
@@ -46,7 +54,7 @@ class Game {
                 y += 66;
             }
 
-            createSprite(this.app, {
+            createSprite(container, {
                 x: x,
                 y: y,
                 width: 64,
@@ -67,7 +75,7 @@ class Game {
     }
 }
 
-const createSprite = function(app, options) {
+const createSprite = function(container, options) {
     options = Object.assign({
         x: 0,
         y: 0,
@@ -90,7 +98,7 @@ const createSprite = function(app, options) {
         console.log(this.rowPosition);
     });
 
-    app.stage.addChild(sprite);
+    container.addChild(sprite);
 
     return sprite;
 };
