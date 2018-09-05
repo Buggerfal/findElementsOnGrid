@@ -18,8 +18,8 @@ class Game {
 
     drawElementsOnGrid(row, column) {
         const container = new PIXI.Container();
-        container.x = WIDTH / 2;
-        container.y = HEIGHT / 2;
+        container.x = (WIDTH / 2) - ((columnCounts * 66) / 2);
+        container.y = (HEIGHT / 2) - ((rowCounts * 66) / 2);
 
         this.app.stage.addChild(container);
 
