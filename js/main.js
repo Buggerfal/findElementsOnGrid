@@ -73,6 +73,10 @@ class Game {
 
         return element;
     }
+
+    static destroySprite(container, sprite) {
+        container.removeChild(sprite);
+    }
 }
 
 const createSprite = function(container, options) {
@@ -96,6 +100,7 @@ const createSprite = function(container, options) {
         console.log(this.uniqId);
         console.log(this.columnPosition);
         console.log(this.rowPosition);
+        Game.destroySprite(container, sprite);
     });
 
     container.addChild(sprite);
