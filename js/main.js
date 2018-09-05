@@ -14,14 +14,14 @@ class Game {
         document.body.appendChild(this.app.view);
     }
 
-    drawElementsOnGrid(width, height) {
+    drawElementsOnGrid(row, column) {
         let x = 0;
         let y = 0;
 
         //Draw elements on Y coordinates
-        for (let i = 0; i <= width; i++) {
+        for (let i = 0; i <= row; i++) {
             //Draw elements on X coordinates            
-            for (let j = 0; j <= height; j++) {
+            for (let j = 0; j <= column; j++) {
                 const type = randomInteger(1, 4);
                 const sprite = createSprite(this.app, {
                     x: x,
@@ -35,14 +35,14 @@ class Game {
                 this.setAttribute(i, j, sprite, type);
                 this.elements.push(sprite);
 
-                if (x !== width) {
+                if (x !== row) {
                     x += 66;
                 }
             }
 
             x = 0;
 
-            if (i !== height) {
+            if (i !== column) {
                 y += 66;
             }
 
@@ -55,15 +55,13 @@ class Game {
                 path: `images/${randomInteger(1,4)}.png`
             });
         }
-
-        console.log(this.elements);
     }
 
-    setAttribute(column, raw, element, type) {
+    setAttribute(column, row, element, type) {
         element.typeId = type;
         element.uniqId = Math.random().toString(16).slice(2);
-        element.columnPosition = column;
-        element.rawPosition = raw;
+        element.columnPosition = column + 1;
+        element.rowPosition = row + 1;
 
         return element;
     }
@@ -88,8 +86,8 @@ const createSprite = function(app, options) {
 
     sprite.on("click", function() {
         console.log(this.uniqId);
-        console.log(this.rawPosition);
         console.log(this.columnPosition);
+        console.log(this.rowPosition);
     });
 
     app.stage.addChild(sprite);
