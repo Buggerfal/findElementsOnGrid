@@ -46,7 +46,7 @@ class Game {
 
         let x = 0;
         let y = 0;
-
+        let columnNum = [];
         //Draw elements on Y coordinates
         for (let i = 0; i <= row; i++) {
             //Draw elements on X coordinates            
@@ -54,12 +54,15 @@ class Game {
                 const sprite = this.createSprite(container, x, y);
 
                 this.setAttribute(i, j, sprite, sprite.type);
-                this.elements.push(sprite);
+                columnNum.push(sprite);
 
                 if (x !== row) {
                     x += 66;
                 }
             }
+
+            this.elements.push(columnNum);
+            columnNum = [];
 
             x = 0;
 
@@ -69,13 +72,14 @@ class Game {
 
             this.createSprite(container, x, y);
         }
+        console.log(this.elements);
     }
 
     setAttribute(column, row, element, type) {
         element.typeId = type;
         element.uniqId = Math.random().toString(16).slice(2);
-        element.columnPosition = column + 1;
-        element.rowPosition = row + 1;
+        element.columnPosition = column;
+        element.rowPosition = row;
 
         return element;
     }
