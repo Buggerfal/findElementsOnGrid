@@ -2,9 +2,9 @@ const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
 class Game {
-    constructor(rowCounts, columnCounts) {
-        this._rowCounts = rowCounts;
-        this._columnCounts = columnCounts;
+    constructor(rowsCount, columnsCount) {
+        this._rowsCount = rowsCount;
+        this._columnsCount = columnsCount;
         this.elements = [];
         this.initApp();
         //Counts elements on grid
@@ -17,8 +17,8 @@ class Game {
     }
 
     drawElementsOnGrid() {
-        const rows = this._rowCounts;
-        const columns = this._columnCounts;
+        const rows = this._rowsCount;
+        const columns = this._columnsCount;
 
         const container = new PIXI.Container();
         container.x = (WIDTH / 2) - ((columns * 66) / 2);
