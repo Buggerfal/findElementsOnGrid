@@ -16,6 +16,27 @@ class Game {
         document.body.appendChild(this.app.view);
     }
 
+    createSprite(container, x, y) {
+        const type = randomInteger(1, 4);
+        const sprite = PIXI.Sprite.fromImage(`images/${type}.png`);
+
+        sprite.width = 64;
+        sprite.height = 64;
+        sprite.x = x;
+        sprite.y = y;
+        sprite.interactive = true;
+
+        sprite.on("click", function() {
+            Game.destroySprite(container, sprite);
+        });
+
+        container.addChild(sprite);
+
+        sprite.type = type;
+
+        return sprite;
+    }
+
     drawElementsOnGrid(row, column) {
         const container = new PIXI.Container();
         container.x = (WIDTH / 2) - ((columnCounts * 66) / 2);
@@ -30,17 +51,9 @@ class Game {
         for (let i = 0; i <= row; i++) {
             //Draw elements on X coordinates            
             for (let j = 0; j <= column; j++) {
-                const type = randomInteger(1, 4);
-                const sprite = createSprite(container, {
-                    x: x,
-                    y: y,
-                    width: 64,
-                    height: 64,
-                    interactive: true,
-                    path: `images/${type}.png`
-                });
+                const sprite = this.createSprite(container, x, y);
 
-                this.setAttribute(i, j, sprite, type);
+                this.setAttribute(i, j, sprite, sprite.type);
                 this.elements.push(sprite);
 
                 if (x !== row) {
@@ -54,14 +67,7 @@ class Game {
                 y += 66;
             }
 
-            createSprite(container, {
-                x: x,
-                y: y,
-                width: 64,
-                height: 64,
-                interactive: true,
-                path: `images/${randomInteger(1,4)}.png`
-            });
+            this.createSprite(container, x, y);
         }
     }
 
@@ -78,35 +84,6 @@ class Game {
         container.removeChild(sprite);
     }
 }
-
-const createSprite = function(container, options) {
-    options = Object.assign({
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0,
-        interactive: false
-    }, options);
-
-    const sprite = PIXI.Sprite.fromImage(options.path);
-
-    sprite.width = options.width;
-    sprite.height = options.height;
-    sprite.x = options.x;
-    sprite.y = options.y;
-    sprite.interactive = options.interactive;
-
-    sprite.on("click", function() {
-        console.log(this.uniqId);
-        console.log(this.columnPosition);
-        console.log(this.rowPosition);
-        Game.destroySprite(container, sprite);
-    });
-
-    container.addChild(sprite);
-
-    return sprite;
-};
 
 function randomInteger(min, max) {
     let rand = min + Math.random() * (max - min);
