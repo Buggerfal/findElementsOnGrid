@@ -1,19 +1,64 @@
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
-const rowCounts = 5;
-const columnCounts = 5;
 
 class Game {
-    constructor() {
+    constructor(rowCounts, columnCounts) {
+        this._rowCounts = rowCounts;
+        this._columnCounts = columnCounts;
         this.elements = [];
         this.initApp();
         //Counts elements on grid
-        this.drawElementsOnGrid(rowCounts, columnCounts);
+        this.drawElementsOnGrid();
     }
 
     initApp() {
         this.app = new PIXI.Application(WIDTH, HEIGHT, { backgroundColor: 0xfd8263 });
         document.body.appendChild(this.app.view);
+    }
+
+    drawElementsOnGrid() {
+        const rows = this._rowCounts;
+        const columns = this._columnCounts;
+
+        const container = new PIXI.Container();
+        container.x = (WIDTH / 2) - ((columns * 66) / 2);
+        container.y = (HEIGHT / 2) - ((rows * 66) / 2);
+
+        this.app.stage.addChild(container);
+
+        let x = 0;
+        let y = 0;
+        let columnNum = [];
+        //Draw elements on Y coordinates
+        for (let i = 0; i <= rows; i++) {
+            //Draw elements on X coordinates            
+            for (let j = 0; j <= columns; j++) {
+                const sprite = this.createSprite(container, x, y);
+
+                this.setAttribute(i, j, sprite, sprite.type);
+                columnNum.push(sprite);
+
+                if (x !== rows) {
+                    x += 66;
+                }
+            }
+
+            this.elements.push(columnNum);
+            columnNum = [];
+
+            x = 0;
+
+            if (i !== columns) {
+                y += 66;
+            }
+
+            this.createSprite(container, x, y);
+        }
+        console.log(this.elements);
+    }
+
+    checkElements(element) {
+        console.log("s", this.elements[element.columnPosition][element.rowPosition]);
     }
 
     createSprite(container, x, y) {
@@ -26,8 +71,12 @@ class Game {
         sprite.y = y;
         sprite.interactive = true;
 
-        sprite.on("click", function() {
+        //TO DO EventListener
+        sprite.on("click", () => {
             Game.destroySprite(container, sprite);
+            // console.log('column', sprite.columnPosition);
+            // console.log('row', sprite.rowPosition);
+            this.checkElements(sprite);
         });
 
         container.addChild(sprite);
@@ -35,44 +84,6 @@ class Game {
         sprite.type = type;
 
         return sprite;
-    }
-
-    drawElementsOnGrid(row, column) {
-        const container = new PIXI.Container();
-        container.x = (WIDTH / 2) - ((columnCounts * 66) / 2);
-        container.y = (HEIGHT / 2) - ((rowCounts * 66) / 2);
-
-        this.app.stage.addChild(container);
-
-        let x = 0;
-        let y = 0;
-        let columnNum = [];
-        //Draw elements on Y coordinates
-        for (let i = 0; i <= row; i++) {
-            //Draw elements on X coordinates            
-            for (let j = 0; j <= column; j++) {
-                const sprite = this.createSprite(container, x, y);
-
-                this.setAttribute(i, j, sprite, sprite.type);
-                columnNum.push(sprite);
-
-                if (x !== row) {
-                    x += 66;
-                }
-            }
-
-            this.elements.push(columnNum);
-            columnNum = [];
-
-            x = 0;
-
-            if (i !== column) {
-                y += 66;
-            }
-
-            this.createSprite(container, x, y);
-        }
-        console.log(this.elements);
     }
 
     setAttribute(column, row, element, type) {
@@ -95,4 +106,4 @@ function randomInteger(min, max) {
     return rand;
 };
 
-new Game;
+new Game(5, 5);
