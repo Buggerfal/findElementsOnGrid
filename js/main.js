@@ -58,7 +58,7 @@ class Game {
 
         //TODO EventListener
         sprite.on("click", () => {
-            Game.destroySprite(container, sprite);
+            this.destroySprite(container, sprite);
             this.checkElements(sprite);
         });
 
@@ -82,7 +82,7 @@ class Game {
         return element;
     }
 
-    static destroySprite(container, sprite) {
+    destroySprite(container, sprite) {
         container.removeChild(sprite);
     }
 }
