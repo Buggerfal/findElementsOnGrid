@@ -29,19 +29,17 @@ class Game {
             //Draw elements on X coordinates            
             for (let j = 0; j <= columns; j++) {
                 const sprite = this.createSprite(container, j, i);
-
-                this.setAttribute(i, j, sprite, sprite.type);
                 columnNum.push(sprite);
             }
 
             this.elements.push(columnNum);
         }
-        console.log(this.elements);
 
         container.x = (WIDTH / 2) - ((columns * 66) / 2);
         container.y = (HEIGHT / 2) - ((rows * 66) / 2);
     }
 
+    //TODO
     checkElements(element) {
         console.log("s", this.elements[element.columnPosition][element.rowPosition]);
     }
@@ -58,17 +56,19 @@ class Game {
         sprite.y = y * (spriteSize + spriteBorder);
         sprite.interactive = true;
 
-        //TO DO EventListener
+        //TODO EventListener
         sprite.on("click", () => {
             Game.destroySprite(container, sprite);
-            // console.log('column', sprite.columnPosition);
-            // console.log('row', sprite.rowPosition);
             this.checkElements(sprite);
         });
 
         container.addChild(sprite);
 
+        // element.typeId = type;
+        // element.uniqId = Math.random().toString(16).slice(2);
         sprite.type = type;
+        sprite.columnPosition = x;
+        sprite.rowPosition = y;
 
         return sprite;
     }
