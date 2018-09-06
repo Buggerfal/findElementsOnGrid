@@ -19,42 +19,27 @@ class Game {
     drawElementsOnGrid() {
         const rows = this._rowsCount;
         const columns = this._columnsCount;
-
         const container = new PIXI.Container();
-        container.x = (WIDTH / 2) - ((columns * 66) / 2);
-        container.y = (HEIGHT / 2) - ((rows * 66) / 2);
 
         this.app.stage.addChild(container);
 
-        let x = 0;
-        let y = 0;
-        let columnNum = [];
         //Draw elements on Y coordinates
         for (let i = 0; i <= rows; i++) {
+            let columnNum = [];
             //Draw elements on X coordinates            
             for (let j = 0; j <= columns; j++) {
-                const sprite = this.createSprite(container, x, y);
+                const sprite = this.createSprite(container, j, i);
 
                 this.setAttribute(i, j, sprite, sprite.type);
                 columnNum.push(sprite);
-
-                if (x !== rows) {
-                    x += 66;
-                }
             }
 
             this.elements.push(columnNum);
-            columnNum = [];
-
-            x = 0;
-
-            if (i !== columns) {
-                y += 66;
-            }
-
-            this.createSprite(container, x, y);
         }
         console.log(this.elements);
+
+        container.x = (WIDTH / 2) - ((columns * 66) / 2);
+        container.y = (HEIGHT / 2) - ((rows * 66) / 2);
     }
 
     checkElements(element) {
@@ -64,11 +49,13 @@ class Game {
     createSprite(container, x, y) {
         const type = randomInteger(1, 4);
         const sprite = PIXI.Sprite.fromImage(`images/${type}.png`);
+        const spriteSize = 64;
+        const spriteBorder = 2;
 
-        sprite.width = 64;
-        sprite.height = 64;
-        sprite.x = x;
-        sprite.y = y;
+        sprite.width = spriteSize;
+        sprite.height = spriteSize;
+        sprite.x = x * (spriteSize + spriteBorder);
+        sprite.y = y * (spriteSize + spriteBorder);
         sprite.interactive = true;
 
         //TO DO EventListener
