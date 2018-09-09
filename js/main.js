@@ -42,19 +42,78 @@ class Game {
         this.checkElement(element, checkedElements);
     }
 
-    // checkElement2(element, checked) {
+    checkElement(element, checked) {
+        this.select(element);
+        const x = element.xPosition;
+        const y = element.yPosition;
+        const width = this._columnsCount
+
+        const array = [
+            {
+                //left element
+                x: element.xPosition - 1,
+                y: element.yPosition,
+                position: "left"
+            },
+            {
+                //right element
+                x: element.xPosition + 1,
+                y: element.yPosition,
+                position: "right"
+            },
+            {
+                //top element
+                x: element.xPosition,
+                y: element.yPosition - 1,
+                position: "top"
+            },
+            {
+                //bottom element
+                x: element.xPosition,
+                y: element.yPosition + 1,
+                position: "bottom"
+            }
+        ];
+        // console.log("до фильтра", array);
+        // debugger;
+        array
+            .filter(c => (c.x >= 0 && c.y >= 0) &&
+            (c.x <= this._columnsCount && c.y <= this._rowsCount))
+            .map(c => {
+                this.elements[c.x + c.y]
+                console.log(this.elements[c.x + c.y]);
+            })
+            .map(index => this.elements[index])
+            .filter(el => el)
+            .filter(el => {
+                return checked.filter(c => c === el).length === 0 &&
+                    element.type === el.type;
+            })
+            .forEach(el => {
+                this.select(el);
+                checked.push(el);
+                this.checkElement(el, checked);
+            });
+
+            // console.log("после фильтра", array);
+
+    }
+
+    // ------- SECOND ALGORITHM REALIZATION ------- //
+
+    // checkElement(element, checked) {
     //     this.select(element);
-    //     const x = element.columnPosition;
-    //     const y = element.rowPosition;
+    //     const x = element.xPosition;
+    //     const y = element.yPosition;
 
     //     for(let i = 0; i < this._rowsCount; i++) {
     //         for(let j = 0; j < this._columnsCount; j++) {
     //             let el = this.elements[this._columnsCount * i + j];
     //             const condition =
-    //                 (((x - 1) === el.columnPosition && el.rowPosition === y) ||
-    //                 ((x + 1) === el.columnPosition && el.rowPosition === y) ||
-    //                 ((y - 1) === el.rowPosition && el.columnPosition === x) ||
-    //                 ((y + 1) === el.rowPosition && el.columnPosition === x)) &&
+    //                 (((x - 1) === el.xPosition && el.yPosition === y) ||
+    //                 ((x + 1) === el.xPosition && el.yPosition === y) ||
+    //                 ((y - 1) === el.yPosition && el.xPosition === x) ||
+    //                 ((y + 1) === el.yPosition && el.xPosition === x)) &&
     //                 (checked.filter((c) => c === el).length === 0) &&
     //                 (element.type === el.type);
 
@@ -66,32 +125,6 @@ class Game {
     //         }
     //     }
     // }
-
-    checkElement(element, checked) {
-        this.select(element);
-        const x = element.columnPosition;
-        const y = element.rowPosition;
-        const leftElement = this.elements[y * this._columnsCount + x - 1];
-        const rightElement = this.elements[y * this._columnsCount + x + 1];
-        const topElement = this.elements[(y - 1)* this._columnsCount + x];
-        const bottomElement = this.elements[(y + 1)* this._columnsCount + x];
-        const array = [leftElement, rightElement, topElement, bottomElement];
-            for(let i = 0; i < array.length; i++) {
-                const el = array[i];
-                if(el === undefined){
-                    continue;
-                }
-                const condition =
-                (checked.filter((c) => c === el).length === 0) &&
-                (element.type === el.type);
-
-                if(condition) {
-                    this.select(el);
-                    checked.push(el);
-                    this.checkElement(el, checked);
-                }
-            }
-    }
 
     createSprite(container, x, y) {
         const type = randomInteger(1, 2);
@@ -113,8 +146,8 @@ class Game {
         container.addChild(sprite);
 
         sprite.type = type;
-        sprite.columnPosition = x;
-        sprite.rowPosition = y;
+        sprite.xPosition = x;
+        sprite.yPosition = y;
 
         return sprite;
     }
@@ -122,8 +155,8 @@ class Game {
     setAttribute(column, row, element, type) {
         element.typeId = type;
         element.uniqId = Math.random().toString(16).slice(2);
-        element.columnPosition = column;
-        element.rowPosition = row;
+        element.xPosition = column;
+        element.yPosition = row;
 
         return element;
     }
