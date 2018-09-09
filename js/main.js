@@ -144,4 +144,5 @@ function randomInteger(min, max) {
     return rand;
 };
 
+//maximum in third argument - 4
 new Game(7, 9, 3);
