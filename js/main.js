@@ -9,6 +9,7 @@ class Game {
         this.initApp();
         //Counts elements on grid
         this.drawElementsOnGrid();
+        // this.createButtons(this.app, 300, 300);
     }
 
     initApp() {
@@ -36,6 +37,24 @@ class Game {
         container.y = (HEIGHT / 2) - ((rows * 66) / 2);
     }
 
+    // createButtons(container, x, y) {
+    //     const refreshButton = PIXI.Sprite.fromImage('images/btn-refresh.png');
+
+    //     refreshButton.width = 128;
+    //     refreshButton.height = 128;
+    //     refreshButton.x = x;
+    //     refreshButton.y = y;
+    //     refreshButton.interactive = true;
+
+    //     refreshButton.on("click", () => {
+    //         console.log("11w");
+    //     });
+
+    //     container.stage.addChild(refreshButton);
+    // }
+
+    // createElement(path, x, y, width, height)
+
     //TODO
     checkElements(element) {
         const checkedElements = [];
@@ -49,54 +68,27 @@ class Game {
         const width = this._columnsCount
 
         const array = [
-            {
-                //left element
-                x: element.xPosition - 1,
-                y: element.yPosition,
-                position: "left"
-            },
-            {
-                //right element
-                x: element.xPosition + 1,
-                y: element.yPosition,
-                position: "right"
-            },
-            {
-                //top element
-                x: element.xPosition,
-                y: element.yPosition - 1,
-                position: "top"
-            },
-            {
-                //bottom element
-                x: element.xPosition,
-                y: element.yPosition + 1,
-                position: "bottom"
-            }
+            { x: element.xPosition - 1, y: element.yPosition },
+            { x: element.xPosition + 1, y: element.yPosition },
+            { x: element.xPosition, y: element.yPosition - 1 },
+            { x: element.xPosition, y: element.yPosition + 1 }
         ];
-        // console.log("до фильтра", array);
-        // debugger;
+
         array
-            .filter(c => (c.x >= 0 && c.y >= 0) &&
-            (c.x <= this._columnsCount && c.y <= this._rowsCount))
-            .map(c => {
-                this.elements[c.x + c.y]
-                console.log(this.elements[c.x + c.y]);
-            })
-            .map(index => this.elements[index])
+            .filter(c =>
+                c.x >= 0 &&
+                c.y >= 0 &&
+                c.x < width &&
+                c.y < this._rowsCount)
+            .map(c => this.elements[width * c.y + c.x])
             .filter(el => el)
-            .filter(el => {
-                return checked.filter(c => c === el).length === 0 &&
-                    element.type === el.type;
-            })
+            .filter(el =>
+                checked.filter(c => c === el).length === 0 &&
+                element.type === el.type)
             .forEach(el => {
-                this.select(el);
                 checked.push(el);
                 this.checkElement(el, checked);
             });
-
-            // console.log("после фильтра", array);
-
     }
 
     // ------- SECOND ALGORITHM REALIZATION ------- //
@@ -138,7 +130,6 @@ class Game {
         sprite.y = y * (spriteSize + spriteBorder);
         sprite.interactive = true;
 
-        //TODO EventListener
         sprite.on("click", () => {
             this.checkElements(sprite);
         });
@@ -172,4 +163,4 @@ function randomInteger(min, max) {
     return rand;
 };
 
-new Game(5, 5);
+new Game(8, 12);
