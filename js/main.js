@@ -37,6 +37,27 @@ class Game {
         container.y = (HEIGHT / 2) - ((rows * 66) / 2);
     }
 
+    createElement(app, options) {
+            options = Object.assign({
+                x: 0,
+                y: 0,
+                width: 0,
+                height: 0,
+                interactive: true
+            }, options);
+
+            const sprite = PIXI.Sprite.fromImage(options.path);
+
+            sprite.width = options.width;
+            sprite.height = options.height;
+            sprite.x = options.x;
+            sprite.y = options.y;
+
+            app.stage.addChild(sprite);
+
+            return sprite;
+    }
+
     // createButtons(container, x, y) {
     //     const refreshButton = PIXI.Sprite.fromImage('images/btn-refresh.png');
 
@@ -55,11 +76,12 @@ class Game {
 
     // createElement(path, x, y, width, height)
 
-    //TODO
     checkElements(element) {
         const checkedElements = [];
         this.checkElement(element, checkedElements);
     }
+
+    // ------- FIRST ALGORITHM REALIZATION ------- //
 
     checkElement(element, checked) {
         this.select(element);
