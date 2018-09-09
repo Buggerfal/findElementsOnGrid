@@ -9,7 +9,7 @@ class Game {
         this.initApp();
         //Counts elements on grid
         this.drawElementsOnGrid();
-        // this.createButtons(this.app, 300, 300);
+        this.createButtons(this.app);
     }
 
     initApp() {
@@ -58,23 +58,34 @@ class Game {
             return sprite;
     }
 
-    // createButtons(container, x, y) {
-    //     const refreshButton = PIXI.Sprite.fromImage('images/btn-refresh.png');
+    createButtons(app) {
+        const refreshButton = this.createElement(app, {
+                x: x,
+                y: y,
+                width: 64,
+                height: 64,
+                path: 'images/btn-refresh.png'
+            });
 
-    //     refreshButton.width = 128;
-    //     refreshButton.height = 128;
-    //     refreshButton.x = x;
-    //     refreshButton.y = y;
-    //     refreshButton.interactive = true;
+            const deleteButton = createElement(app, {
+                x: x,
+                y: y,
+                width: 64,
+                height: 64,
+                path: 'images/btn-delete.png.png'
+            });
 
-    //     refreshButton.on("click", () => {
-    //         console.log("11w");
-    //     });
+        refreshButton.on("click", () => {
+            console.log("refreshButton");
+        });
 
-    //     container.stage.addChild(refreshButton);
-    // }
+        deleteButton.on("click", () => {
+            console.log("deleteButton");
+        });
 
-    // createElement(path, x, y, width, height)
+        app.stage.addChild(refreshButton);
+        app.stage.addChild(deleteButton);
+    }
 
     checkElements(element) {
         const checkedElements = [];
@@ -184,5 +195,11 @@ function randomInteger(min, max) {
     rand = Math.round(rand);
     return rand;
 };
+
+function toPercent(x, y) {
+    const pxX = WIDTH * x / 100;
+    const pxY = HEIGHT * y / 100;
+        return { x: pxX, y: pxY };
+}
 
 new Game(8, 12);
